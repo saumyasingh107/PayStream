@@ -1,6 +1,5 @@
 const express = require("express");
 const userRoute = require("./user");
-const cors = require("cors");
 
 
 
