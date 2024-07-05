@@ -9,21 +9,21 @@ const userSchema = new mongoose.Schema({
         required: true,
         Unique: true,
         minLength: 4,
-        maxLength: 12
+        maxLength: 50
     },
     password: {
         type: String,
         required: true,
         minLength: 5,
-        maxLength: 12
+        maxLength: 50
 
     },
-    firstName: {
+    firstname: {
         type: String,
         required: true,
         maxLength: 20
     },
-    lastName: {
+    lastname: {
         type: String,
         required: true,
         maxLength: 20
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 })
 const accountSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId, // Reference to User model
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
 

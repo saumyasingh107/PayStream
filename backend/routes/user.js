@@ -4,7 +4,6 @@ const { User, Account } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const { authMiddleware } = require("../middleware");
-const Random = require("faker/lib/random");
 
 const router = express.Router();
 
@@ -47,7 +46,7 @@ router.post("/signup", async (req, res) => {
 
 const signinbody = zod.object({
     username: zod.string().email(),
-    password: zod.string
+    password: zod.string()
 })
 
 router.post("/signin", async (req, res) => {
@@ -115,8 +114,8 @@ router.get("/bulk", async (req, res) => {
     res.json({
         user: users.map(user => ({
             username: user.username,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstname: user.firstname,
+            lastname: user.lastname,
             _id: user._id
 
         }))
