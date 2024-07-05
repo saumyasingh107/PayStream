@@ -81,7 +81,7 @@ const bodyUpdate = zod.object({
 
 })
 
-router.put("/", authMiddleware, async (res, req) => {
+router.put("/", authMiddleware, async (req, res) => {
 
     const { success } = bodyUpdate.safeParse(req.body);
     if (!success) {
@@ -91,10 +91,11 @@ router.put("/", authMiddleware, async (res, req) => {
 
     }
     await User.updateOne({ _id: req.userId }, req.body)
+    res.json({
+        msg: "information updated succesfully"
+    })
 })
-res.json({
-    msg: "information updated succesfully"
-})
+
 
 router.get("/bulk", async (req, res) => {
     const filter = req.query.filter || "";

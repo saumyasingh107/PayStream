@@ -1,7 +1,7 @@
 
-const mongoose = requre("mongoose");
+const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/")
+mongoose.connect("mongodb+srv://admin:Binu$1467@cluster0.ecetulm.mongodb.net/payStream")
 
 const userSchema = new mongoose.Schema({
     username: {
