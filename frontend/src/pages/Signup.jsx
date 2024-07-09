@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [firstname, setfirstname] = useState("");
+  const [lastname, setlastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const Signup = () => {
       localStorage.setItem("token", response.data.token);
       if (response.status == 200) {
         setEmail("");
-        setFirstname("");
-        setLastname("");
+        setfirstname("");
+        setlastname("");
         setPassword("");
       }
       navigate("/dashboard");
@@ -46,7 +46,7 @@ const Signup = () => {
           type="text"
           id="firstname"
           placeholder="firstname"
-          onChange={(e) => setFirstname(e.target.value)}
+          onChange={(e) => setfirstname(e.target.value)}
           value={firstname}
         />
         <br />
@@ -56,7 +56,7 @@ const Signup = () => {
           type="text"
           id="firstname"
           placeholder="lastname"
-          onChange={(e) => setLastname(e.target.value)}
+          onChange={(e) => setlastname(e.target.value)}
           value={lastname}
         />
         <br />

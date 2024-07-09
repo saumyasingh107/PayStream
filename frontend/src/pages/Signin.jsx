@@ -1,11 +1,12 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +23,8 @@ const Signin = () => {
         setEmail("");
         setPassword("");
       }
+      localStorage.setItem("token", response.data.token);
+      navigate("/dashboard");
     } catch (err) {
       console.log("error while loging in");
     }
