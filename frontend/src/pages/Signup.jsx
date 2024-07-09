@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,12 +22,14 @@ const Signup = () => {
         "http://localhost:3000/api/v1/user/signup",
         Data
       );
+      localStorage.setItem("token", response.data.token);
       if (response.status == 200) {
         setEmail("");
         setFirstname("");
         setLastname("");
         setPassword("");
       }
+      navigate("/dashboard");
     } catch (err) {
       console.log("error login in");
     }
