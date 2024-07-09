@@ -73,51 +73,50 @@ router.post("/signin", async (req, res) => {
     })
 })
 
-const bodyUpdate = zod.object({
-    username: zod.string(),
-    firstname: zod.string(),
-    lastname: zod.string(),
-
+const updateBody = zod.object({
+    password: zod.string().optional(),
+    firstName: zod.string().optional(),
+    lastName: zod.string().optional(),
 })
 
 router.put("/", authMiddleware, async (req, res) => {
-
-    const { success } = bodyUpdate.safeParse(req.body);
+    const { success } = updateBody.safeParse(req.body)
     if (!success) {
-        return res.status(411).json({
-            msg: "error whileupdating information"
+        res.status(411).json({
+            message: "Error while updating information"
         })
-
     }
-    await User.updateOne({ _id: req.userId }, req.body)
+
+    await User.updateOne(req.body, {
+        id: req.userId
+    })
+
     res.json({
-        msg: "information updated succesfully"
+        message: "Updated successfully"
     })
 })
 
-
 router.get("/bulk", async (req, res) => {
     const filter = req.query.filter || "";
+
     const users = await User.find({
         $or: [{
             firstName: {
-                "$regex": filter,
-                "$options": "i"
+                "$regex": filter
             }
         }, {
             lastName: {
-                "$regex": filter,
-                "$options": "i"
+                "$regex": filter
             }
         }]
     })
+
     res.json({
         user: users.map(user => ({
             username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
+            firstName: user.firstname,
+            lastName: user.lastname,
             _id: user._id
-
         }))
     })
 })
