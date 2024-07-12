@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { Button } from "./Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const Users = () => {
-  // Replace with backend call
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
 
@@ -30,7 +30,7 @@ export const Users = () => {
       </div>
       <div>
         {users.map((user) => (
-          <User user={user} />
+          <User key={user._id} user={user} />
         ))}
       </div>
     </>
@@ -45,24 +45,23 @@ function User({ user }) {
       <div className="flex">
         <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
           <div className="flex flex-col justify-center h-full text-xl">
-            {user.firstname[0]}
+            {user.firstname ? user.firstname[0] : ""}
           </div>
         </div>
-        <div className="flex flex-col justify-center h-ful">
+        <div className="flex flex-col justify-center h-full">
           <div>
             {user.firstname} {user.lastname}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center h-ful">
-        <button
-          onClick={(e) => {
+      <div className="flex flex-col justify-center h-full">
+        <Button
+          onClick={() => {
             navigate("/send?id=" + user._id + "&name=" + user.firstname);
           }}
-        >
-          Send Money
-        </button>
+          label={"Send Money"}
+        />
       </div>
     </div>
   );
