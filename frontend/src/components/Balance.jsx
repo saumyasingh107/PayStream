@@ -6,8 +6,18 @@ export const Balance = () => {
 
   const fetchBalance = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/account");
-      setBalance(response.data.balance);
+      const token = localStorage.getItem("token"); // Assuming the token is stored in localStorage
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      const response = await axios.get("http://localhost:3000/api/v1/account", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const formattedBalance = response.data.balance.toFixed(1);
+      setBalance(formattedBalance);
     } catch (error) {
       console.error("Error fetching balance:", error);
     }

@@ -2,6 +2,10 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../components/Button";
+import { Heading } from "../components/Heading";
+import { SubHeading } from "../components/SubHeading";
+import { BottomWarning } from "../components/BottomWarning";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -22,41 +26,66 @@ const Signin = () => {
       if (response.status == 200) {
         setEmail("");
         setPassword("");
+        localStorage.setItem("firstName", response.data.firstName);
+        localStorage.setItem("token", response.data.token);
+        navigate("/dashboard");
       }
-      localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
     } catch (err) {
       console.log("error while loging in");
     }
   };
   return (
-    <div>
-      <h1>Sign In</h1>
-      <h4>Enter your credentials to access your account</h4>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          placeholder="email"
-          name=""
-          id="email"
-          value={email}
-        />
-        <br />
-        <label htmlFor="passwrod">Password</label>
-        <input
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="password"
-          id="password"
-          value={password}
-        />
-        <br />
-        <button>Sign In</button>
-        <p>not have an account?</p>
-        <Link to="/signup">Sign in</Link>
-      </form>
+    <div className="bg-slate-300 h-screen flex justify-center">
+      <div className="flex flex-col justify-center">
+        <div className="rounded-lg bg-white w-[30rem] text-center p-2 h-[28rem] px-4">
+          <Heading label={"Sign in"} />
+          <div className="pt-3">
+            <SubHeading
+              label={"Enter your credentials to access your account"}
+            />
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <div className="text-sm font-medium text-left py-2">Email</div>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="email"
+                name=""
+                id="email"
+                value={email}
+                className="w-full my-1 px-2 py-1 border rounded border-slate-200"
+              />
+            </div>
+            <div>
+              <div className="text-sm font-medium text-left py-2">Password</div>
+
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                placeholder="password"
+                id="password"
+                value={password}
+                className="w-full my-1 px-2 py-1 border rounded border-slate-200"
+              />
+            </div>
+            <div className="pt-4 mt-7">
+              <button
+                className="w-full text-white bg-gray-800 hover:bg-gray-900
+              focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium
+              rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+              >
+                Sign In
+              </button>
+            </div>
+            <BottomWarning
+              label={"Don't have an account?"}
+              buttonText={"Sign up"}
+              to={"/signup"}
+            />
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
