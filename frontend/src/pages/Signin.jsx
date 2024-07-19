@@ -6,6 +6,7 @@ import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { SubHeading } from "../components/SubHeading";
 import { BottomWarning } from "../components/BottomWarning";
+import { toast, ToastContainer } from "react-toastify";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +30,7 @@ const Signin = () => {
         localStorage.setItem("firstName", response.data.firstName);
         localStorage.setItem("token", response.data.token);
         navigate("/dashboard");
+        toast.success("Logged In");
       }
     } catch (err) {
       console.log("error while loging in");
@@ -86,6 +88,7 @@ const Signin = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heading } from "../components/Heading";
 import { SubHeading } from "../components/SubHeading";
 import { BottomWarning } from "../components/BottomWarning";
+import { toast, ToastContainer } from "react-toastify";
 
 const Signup = () => {
   const [firstname, setfirstname] = useState("");
@@ -32,6 +33,7 @@ const Signup = () => {
         setPassword("");
         navigate("/dashboard");
         localStorage.setItem("token", response.data.token);
+        toast.success("Registeration Successful");
       }
     } catch (err) {
       console.log("error login in");
@@ -119,6 +121,7 @@ const Signup = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
