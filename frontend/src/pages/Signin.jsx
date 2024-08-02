@@ -83,7 +83,7 @@ const Signin = () => {
             <BottomWarning
               label={"Don't have an account?"}
               buttonText={"Sign up"}
-              to={"/signup"}
+              to={"/"}
             />
           </form>
         </div>
