@@ -11,11 +11,14 @@ export const Balance = () => {
         throw new Error("No token found");
       }
 
-      const response = await axios.get("http://localhost:3000/api/v1/account", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://paystream-1.onrender.com/api/v1/account",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const formattedBalance = response.data.balance.toFixed(1);
       setBalance(formattedBalance);
     } catch (error) {

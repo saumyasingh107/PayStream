@@ -23,7 +23,7 @@ const Signup = () => {
         lastname: lastname,
       };
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signup",
+        "https://paystream-1.onrender.com/api/v1/user/signup",
         Data
       );
       if (response.status == 200) {
