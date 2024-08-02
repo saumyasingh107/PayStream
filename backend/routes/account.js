@@ -7,7 +7,6 @@ const { default: mongoose } = require("mongoose");
 const router = express.Router();
 router.get("/", authMiddleware, async (req, res) => {
     try {
-        console.log(`Looking for account with userId: ${req.userId}`); // Add this line for debugging
         const account = await Account.findOne({ userId: req.userId });
 
         if (!account) {
@@ -16,7 +15,6 @@ router.get("/", authMiddleware, async (req, res) => {
 
         res.json({ balance: account.balance });
     } catch (error) {
-        console.error("Error fetching account:", error); // Add this line for debugging
         res.status(500).json({ error: "Internal server error" });
     }
 });
