@@ -7,13 +7,28 @@ export const Users = () => {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
 
+  const loggedInUserId = localStorage.getItem("userId");
+
   useEffect(() => {
     axios
-      .get("https://paystream-1.onrender.com/api/v1/user/bulk?filter=" + filter)
+      .get(
+        "https://paystream-1.onrender.com/api/v1/user/bulk?filter=" + filter,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      )
       .then((response) => {
-        setUsers(response.data.user);
+        const filteredUsers = response.data.user.filter(
+          (user) => user._id !== loggedInUserId
+        );
+        setUsers(filteredUsers);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
       });
-  }, [filter]);
+  }, [filter, loggedInUserId]);
 
   return (
     <>

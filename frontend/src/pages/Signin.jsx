@@ -6,7 +6,8 @@ import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { SubHeading } from "../components/SubHeading";
 import { BottomWarning } from "../components/BottomWarning";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -29,11 +30,17 @@ const Signin = () => {
         setPassword("");
         localStorage.setItem("firstName", response.data.firstName);
         localStorage.setItem("token", response.data.token);
-        navigate("/dashboard");
         toast.success("Logged In");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       }
     } catch (err) {
-      console.log("error while loging in");
+      const errmsg =
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : "An error occurred. Please try again.";
+      toast.error(errmsg);
     }
   };
   return (

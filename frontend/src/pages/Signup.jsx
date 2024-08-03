@@ -31,12 +31,18 @@ const Signup = () => {
         setfirstname("");
         setlastname("");
         setPassword("");
-        navigate("/dashboard");
         localStorage.setItem("token", response.data.token);
         toast.success("Registeration Successful");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       }
     } catch (err) {
-      console.log("error login in");
+      const errmsg =
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : "An error occurred. Please try again.";
+      toast.error(errmsg);
     }
   };
 
