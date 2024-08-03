@@ -17,7 +17,7 @@ const signupbody = zod.object({
 router.post("/signup", async (req, res) => {
     const { success } = signupbody.safeParse(req.body);
     if (!success) {
-        return res.status(411).json({ message: "Email already taken / Incorrect inputs" })
+        return res.status(411).json({ message: "Incorrect inputs" })
     }
     const existingUser = await User.findOne({
         username: req.body.username
@@ -61,16 +61,16 @@ router.post("/signin", async (req, res) => {
     if (user) {
         const token = jwt.sign({
             userId: user._id,
-            firstName: user.firstName // Include firstName in the token
+            firstname: user.firstname
         }, JWT_SECRET);
 
         return res.json({
             token: token,
-            firstname: user.firstname // Include firstName in the response
+            firstname: user.firstname
         });
     }
 
-    res.status(411).json({ message: "error while loging in" });
+    res.status(411).json({ message: "invalid credentials" });
 });
 
 const updateBody = zod.object({
@@ -96,17 +96,23 @@ router.put("/", authMiddleware, async (req, res) => {
     })
 })
 
-router.get("/bulk", async (req, res) => {
+router.get("/bulk", authMiddleware, async (req, res) => {
     const filter = req.query.filter || "";
+    const currentUserId = req.user._id;
 
-    const query = filter
-        ? {
-            $or: [
-                { firstname: { "$regex": filter, "$options": "i" } },
-                { lastname: { "$regex": filter, "$options": "i" } }
-            ]
-        }
-        : {};
+    const query = {
+        $and: [
+            filter
+                ? {
+                    $or: [
+                        { firstname: { "$regex": filter, "$options": "i" } },
+                        { lastname: { "$regex": filter, "$options": "i" } }
+                    ]
+                }
+                : {},
+            { _id: { $ne: currentUserId } },
+        ],
+    };
 
     const users = await User.find(query);
 
